@@ -8,83 +8,137 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:paddingStart="80dp"
         android:layout_height="match_parent"
         android:src="@drawable/app_bg"
         android:scaleType="centerCrop"
-        android:alpha="0.5"/>
+        android:alpha="0.35"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="85dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="700dp"
-        android:background="@drawable/coin_bg">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="2dp"
-            android:src="@drawable/coinimg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary">
 
         <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:fontFamily="@font/poppins_extrabold"
-            android:gravity="center_vertical"
-            android:text="56"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/lobster_two_bold"
+            android:text="Play  TO  Earn"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
+    </androidx.appcompat.widget.Toolbar>
 
-    <com.bluehomestudio.luckywheel.LuckyWheel
-        android:id="@+id/wheel"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        app:image_padding="20dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="45dp"
-        app:background_color="@color/black"/>
-
-    <Button
-        android:layout_width="150dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/wheel"
         android:layout_centerInParent="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/primary"
-        android:background="@drawable/spinner_inside"
-        android:fontFamily="@font/poppins"
-        android:text="Spin"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="right"
+            android:background="@drawable/button_bg"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:paddingLeft="8dp"
+                android:paddingBottom="2dp"
+                android:paddingEnd="2dp"
+                android:src="@drawable/coinimg" />
+
+            <TextView
+                android:id="@+id/currentAmnt"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:paddingBottom="2dp"
+                android:paddingEnd="8dp"
+                android:text="56"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <com.bluehomestudio.luckywheel.LuckyWheel
+            android:id="@+id/wheel"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginBottom="20dp"
+            app:background_color="@color/black"
+            app:image_padding="20dp" />
+
+        <Button
+            android:id="@+id/spinBtn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/text_border"
+            android:backgroundTint="@color/primary"
+            android:fontFamily="@font/poppins_bold"
+            android:onClick="spinBtnClick"
+            android:text="SPIN NOW"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/amntLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/roboto"
+                android:text="2500"
+                android:textColor="@color/secondary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto"
+                android:text="coins left to withdraw"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/withdrawBtn"
+            android:onClick="withdrawBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/wallet_img"
+            android:drawableTint="@color/white"
+            android:text="Withdraw"
+            android:backgroundTint="@color/secondary"
+            android:layout_gravity="right"
+            android:layout_marginTop="30dp"/>
+    </LinearLayout>
 </RelativeLayout>
