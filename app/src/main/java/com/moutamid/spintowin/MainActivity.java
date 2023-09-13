@@ -31,7 +31,7 @@
         TextView currentBal, remainingBal;
         DataModel dataModel;
         public Integer currentAvail, exchangeRate, maxAvail, withdrawLimit, remainingAmnt;
-        String points;
+        String points, merchantAPI;
         boolean manualVisible;
 
         LuckyWheel luckyWheel;
@@ -90,7 +90,7 @@
                     Toast.makeText(MainActivity.this, "You won " + pointsReceivedValue + " points", Toast.LENGTH_SHORT).show();
 
                     currentAvail = Integer.valueOf(pointsReceivedValue + currentAvail);
-                    remainingAmnt = remainingAmnt - currentAvail;
+                    remainingAmnt = Integer.valueOf(remainingAmnt - pointsReceivedValue);
 
                     currentBal.setText(String.valueOf(currentAvail));
                     remainingBal.setText(String.valueOf(remainingAmnt));
@@ -101,22 +101,19 @@
         }
 
         private void updateDataInFirebase(Integer currentAvail, Integer remainingAmnt) {
-            DatabaseReference reference = Constants.databaseReference();
-            if (dataModel != null) {
-                dataModel.setCurrentAvail(currentAvail);
-                dataModel.setRemainingAmnt(remainingAmnt);
-                reference.setValue(dataModel);
-            }
+            DatabaseReference configDataRef = Constants.databaseReference().child("configData");
+            configDataRef.child("currentAvail").setValue(currentAvail);
+            configDataRef.child("remainingAmnt").setValue(remainingAmnt);
         }
 
         public void fetchData() {
-            DatabaseReference reference = Constants.databaseReference();
+            DatabaseReference reference = Constants.databaseReference().child("configData");
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        dataModel = dataSnapshot.getValue(DataModel.class);
+                            dataModel = dataSnapshot.getValue(DataModel.class);
                         if (dataModel != null) {
                             currentAvail = dataModel.getCurrentAvail();
                             exchangeRate = dataModel.getExchangeRate();
@@ -124,6 +121,7 @@
                             withdrawLimit = dataModel.getWithdrawLimit();
                             remainingAmnt = dataModel.getRemainingAmnt();
                             manualVisible = dataModel.isManualVisible();
+                            merchantAPI = dataModel.getMerchantAPI();
 
                             currentBal.setText(String.valueOf(currentAvail));
                             remainingBal.setText(String.valueOf(remainingAmnt));
@@ -147,15 +145,15 @@
                 luckyWheel.rotateWheelTo(Integer.parseInt(points) + 1);
             }
             else {
-                Toast.makeText(MainActivity.this, "Today's Limit Reached.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Limit Reached. Withdraw First To Play", Toast.LENGTH_SHORT).show();
             }
         }
 
         public boolean limitReached() {
-            if (currentAvail != maxAvail) {
-                return true;
-            } else {
+            if (currentAvail < maxAvail) {
                 return false;
+            } else {
+                return true;
             }
         }
 
@@ -167,7 +165,8 @@
                 intent.putExtra("MaxAvail", maxAvail);
                 intent.putExtra("ExchangeRate", exchangeRate);
                 intent.putExtra("WithdrawLimit", withdrawLimit);
-                intent.putExtra("ManualVisible", manualVisible);
+                intent.putExtra("manualVisible", manualVisible);
+                intent.putExtra("MerchantAPI", merchantAPI);
                 startActivity(intent);
             }
             else {
