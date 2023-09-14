@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SpinToWIn"
 include ':app'
+include ':library'

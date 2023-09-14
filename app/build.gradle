@@ -31,7 +31,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.mmoamenn:LuckyWheel_Android:0.3.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':library')
     implementation platform('com.google.firebase:firebase-bom:32.2.3')
 
     implementation 'com.google.firebase:firebase-auth'

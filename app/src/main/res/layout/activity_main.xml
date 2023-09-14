@@ -7,42 +7,28 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/app_bg"
-        android:scaleType="centerCrop"
-        android:alpha="0.35"/>
-
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/lobster_two_bold"
-            android:text="Play  TO  Earn"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_width="280dp"
+        android:layout_height="651dp"
+        android:layout_marginBottom="150dp"
+        android:paddingEnd="280dp"
+        android:alpha="0.35"
+        android:scaleType="center"
+        android:src="@drawable/app_bg2" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="30dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_gravity="right"
-            android:background="@drawable/button_bg"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/transparent_bg"
             android:orientation="horizontal">
 
             <ImageView
@@ -51,8 +37,8 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:paddingLeft="8dp"
-                android:paddingBottom="2dp"
                 android:paddingEnd="2dp"
+                android:paddingBottom="2dp"
                 android:src="@drawable/coinimg" />
 
             <TextView
@@ -61,46 +47,48 @@
                 android:layout_height="40dp"
                 android:fontFamily="@font/roboto"
                 android:gravity="center"
-                android:paddingBottom="2dp"
                 android:paddingEnd="8dp"
+                android:paddingBottom="2dp"
                 android:text="56"
                 android:textSize="20sp" />
-
         </LinearLayout>
 
-        <com.bluehomestudio.luckywheel.LuckyWheel
-            android:id="@+id/wheel"
-            android:layout_width="320dp"
-            android:layout_height="320dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="45dp"
+        <rubikstudio.library.LuckyWheelView
+            android:id="@+id/luckyWheel"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="45dp"
-            android:layout_marginBottom="20dp"
-            app:background_color="@color/black"
-            app:image_padding="20dp" />
+            app:lkwBackgroundColor="@color/white"
+            app:lkwCenterImage="@drawable/centerimg"
+            app:lkwCursor="@drawable/ic_cursor"
+            app:lkwEdgeColor="@color/gray"
+            app:lkwEdgeWidth="3"
+            app:lkwTopTextColor="@color/black"
+            app:lkwTopTextPadding="25dp"
+            app:lkwTopTextSize="16sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/spinBtn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/text_border"
-            android:backgroundTint="@color/primary"
-            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/roboto"
             android:onClick="spinBtnClick"
-            android:text="SPIN NOW"
+            android:text="Spin"
+            android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -111,7 +99,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/poppins_bold"
                 android:text="2500"
                 android:textColor="@color/secondary"
                 android:textSize="18sp"
@@ -123,22 +111,31 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/poppins_bold"
                 android:text="coins left to withdraw"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#cccccc" />
 
         <Button
             android:id="@+id/withdrawBtn"
-            android:onClick="withdrawBtnClick"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/button_bg"
             android:drawableLeft="@drawable/wallet_img"
             android:drawableTint="@color/white"
-            android:text="Withdraw"
-            android:backgroundTint="@color/secondary"
-            android:layout_gravity="right"
-            android:layout_marginTop="30dp"/>
+            android:onClick="withdrawBtnClick"
+            android:text="Withdraw Now"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 </RelativeLayout>

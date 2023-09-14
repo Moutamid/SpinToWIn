@@ -1,22 +1,16 @@
     package com.moutamid.spintowin;
 
-    import static android.util.Log.d;
-
-    import androidx.annotation.NonNull;
-    import androidx.appcompat.app.AppCompatActivity;
-    import androidx.core.content.res.ResourcesCompat;
-
     import android.content.Intent;
-    import android.graphics.BitmapFactory;
     import android.os.Bundle;
+    import android.provider.Settings;
     import android.util.Log;
     import android.view.View;
     import android.widget.TextView;
     import android.widget.Toast;
 
-    import com.bluehomestudio.luckywheel.LuckyWheel;
-    import com.bluehomestudio.luckywheel.OnLuckyWheelReachTheTarget;
-    import com.bluehomestudio.luckywheel.WheelItem;
+    import androidx.annotation.NonNull;
+    import androidx.appcompat.app.AppCompatActivity;;
+
     import com.google.firebase.database.DataSnapshot;
     import com.google.firebase.database.DatabaseError;
     import com.google.firebase.database.DatabaseReference;
@@ -26,105 +20,134 @@
     import java.util.List;
     import java.util.Random;
 
+    import rubikstudio.library.LuckyWheelView;
+    import rubikstudio.library.model.LuckyItem;
+
     public class MainActivity extends AppCompatActivity {
         String TAG = "MainActivityLogs";
-        TextView currentBal, remainingBal;
         DataModel dataModel;
+        TextView currentBal, remainingBal;
         public Integer currentAvail, exchangeRate, maxAvail, withdrawLimit, remainingAmnt;
-        String points, merchantAPI;
+        String points, merchantAPI, androidId;
         boolean manualVisible;
-
-        LuckyWheel luckyWheel;
-        List<WheelItem> wheelItemList = new ArrayList<>();
+        LuckyWheelView luckyWheelView;
+        DatabaseReference configDataRef = Constants.databaseReference().child("configData");
+        DatabaseReference userDataRef = Constants.databaseReference().child("userData");
+        List<LuckyItem> data = new ArrayList<>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            luckyWheel = findViewById(R.id.wheel);
+            luckyWheelView = (LuckyWheelView) findViewById(R.id.luckyWheel);
+
             currentBal = findViewById(R.id.currentAmnt);
             remainingBal = findViewById(R.id.amntLeft);
 
+            luckyWheelView.setTouchEnabled(false);
+
             fetchData();
 
-            WheelItem wheelItem0 = new WheelItem(ResourcesCompat.getColor(getResources(), R.color.primary, null),
-                    BitmapFactory.decodeResource(getResources(), R.drawable.coin_prize), "+100  Coins");
+            LuckyItem luckyItem1 = new LuckyItem();
+            luckyItem1.topText = "+100 Points";
+            luckyItem1.icon = R.drawable.coin_prize;
+            data.add(luckyItem1);
 
-            wheelItemList.add(wheelItem0);
+            LuckyItem luckyItem2 = new LuckyItem();
+            luckyItem2.topText = "+200 Points";
+            luckyItem2.icon = R.drawable.coin_prize2;
+            data.add(luckyItem2);
 
-            WheelItem wheelItem1 = new WheelItem(ResourcesCompat.getColor(getResources(), R.color.secondary, null),
-                    BitmapFactory.decodeResource(getResources(), R.drawable.coin_prize), "+200  Coins");
+            LuckyItem luckyItem3 = new LuckyItem();
+            luckyItem3.topText = "+300 Points";
+            luckyItem3.icon = R.drawable.coin_prize;
+            data.add(luckyItem3);
 
-            wheelItemList.add(wheelItem1);
+            LuckyItem luckyItem4 = new LuckyItem();
+            luckyItem4.topText = "+400 Points";
+            luckyItem4.icon = R.drawable.coin_prize2;
+            data.add(luckyItem4);
 
-            WheelItem wheelItem2 = new WheelItem(ResourcesCompat.getColor(getResources(), R.color.primary, null),
-                    BitmapFactory.decodeResource(getResources(), R.drawable.coin_prize), "+300  Coins");
+            LuckyItem luckyItem5 = new LuckyItem();
+            luckyItem5.topText = "+500 Points";
+            luckyItem5.icon = R.drawable.coin_prize;
+            data.add(luckyItem5);
 
-            wheelItemList.add(wheelItem2);
+            LuckyItem luckyItem6 = new LuckyItem();
+            luckyItem6.topText = "+1000 Points";
+            luckyItem6.icon = R.drawable.coin_prize2;
+            data.add(luckyItem6);
 
-            WheelItem wheelItem3 = new WheelItem(ResourcesCompat.getColor(getResources(), R.color.secondary, null),
-                    BitmapFactory.decodeResource(getResources(), R.drawable.coin_prize), "+400  Coins");
+            luckyWheelView.setData(data);
+            luckyWheelView.setRound(10);
 
-            wheelItemList.add(wheelItem3);
-
-            WheelItem wheelItem4 = new WheelItem(ResourcesCompat.getColor(getResources(), R.color.primary, null),
-                    BitmapFactory.decodeResource(getResources(), R.drawable.coin_prize), "+500  Coins");
-            wheelItemList.add(wheelItem4);
-
-            WheelItem wheelItem5 = new WheelItem(ResourcesCompat.getColor(getResources(), R.color.secondary, null),
-                    BitmapFactory.decodeResource(getResources(), R.drawable.coin_prize), "+1000  Coins");
-            wheelItemList.add(wheelItem5);
-
-            luckyWheel.addWheelItems(wheelItemList);
-
-            luckyWheel.setLuckyWheelReachTheTarget(new OnLuckyWheelReachTheTarget() {
+            luckyWheelView.setLuckyRoundItemSelectedListener(new LuckyWheelView.LuckyRoundItemSelectedListener() {
                 @Override
-                public void onReachTarget() {
-                    WheelItem itemselected = wheelItemList.get(Integer.parseInt(points));
-                    String pointsRecv = itemselected.text;
-
-                    String numericPart = pointsRecv.replaceAll("[^0-9]", "");
-                    int pointsReceivedValue = Integer.parseInt(numericPart);
+                public void LuckyRoundItemSelected(int index) {
+                    String pointsReceivedValue = data.get(index).topText;
 
                     Toast.makeText(MainActivity.this, "You won " + pointsReceivedValue + " points", Toast.LENGTH_SHORT).show();
 
-                    currentAvail = Integer.valueOf(pointsReceivedValue + currentAvail);
-                    remainingAmnt = Integer.valueOf(remainingAmnt - pointsReceivedValue);
+                    Integer points = Integer.valueOf(pointsReceivedValue);
+                    currentAvail = points + currentAvail;
+                    remainingAmnt = maxAvail - currentAvail;
 
                     currentBal.setText(String.valueOf(currentAvail));
                     remainingBal.setText(String.valueOf(remainingAmnt));
 
-                    updateDataInFirebase(currentAvail, remainingAmnt);
+                    updateDataInFirebase(currentAvail);
                 }
             });
         }
 
-        private void updateDataInFirebase(Integer currentAvail, Integer remainingAmnt) {
-            DatabaseReference configDataRef = Constants.databaseReference().child("configData");
-            configDataRef.child("currentAvail").setValue(currentAvail);
-            configDataRef.child("remainingAmnt").setValue(remainingAmnt);
+        private void updateDataInFirebase(Integer currentAvail) {
+            DatabaseReference userRef = userDataRef.child(androidId);
+            userRef.child("currentAvail").setValue(currentAvail);
         }
 
         public void fetchData() {
-            DatabaseReference reference = Constants.databaseReference().child("configData");
 
-            reference.addValueEventListener(new ValueEventListener() {
+            androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            Log.d(TAG, "Android ID: " + androidId);
+            DatabaseReference query = userDataRef.child(androidId);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                            dataModel = dataSnapshot.getValue(DataModel.class);
+                        dataModel = dataSnapshot.getValue(DataModel.class);
                         if (dataModel != null) {
                             currentAvail = dataModel.getCurrentAvail();
+
+                            // Update the UI elements here
+                            currentBal.setText(String.valueOf(currentAvail));
+                            remainingAmnt = maxAvail - currentAvail;
+                            remainingBal.setText(String.valueOf(remainingAmnt));
+                        }
+                    } else {
+                        createData(androidId);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle any errors here
+                }
+            });
+
+            configDataRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        dataModel = dataSnapshot.getValue(DataModel.class);
+                        if (dataModel != null) {
                             exchangeRate = dataModel.getExchangeRate();
                             maxAvail = dataModel.getMaxAvail();
                             withdrawLimit = dataModel.getWithdrawLimit();
-                            remainingAmnt = dataModel.getRemainingAmnt();
                             manualVisible = dataModel.isManualVisible();
                             merchantAPI = dataModel.getMerchantAPI();
 
-                            currentBal.setText(String.valueOf(currentAvail));
-                            remainingBal.setText(String.valueOf(remainingAmnt));
                         }
                     } else {
                         Toast.makeText(MainActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
@@ -138,11 +161,20 @@
             });
         }
 
+        private void createData(String androidId) {
+            DatabaseReference androidIdRef = userDataRef.child(androidId);
+            androidIdRef.child("currentAvail").setValue(0);
+            currentBal.setText(String.valueOf(currentAvail));
+            remainingAmnt = maxAvail - currentAvail;
+            remainingBal.setText(String.valueOf(remainingAmnt));
+        }
+
+
         public void spinBtnClick(View view) {
             if (!limitReached()) {
                 Random random = new Random();
                 points = String.valueOf(random.nextInt(6));
-                luckyWheel.rotateWheelTo(Integer.parseInt(points) + 1);
+                luckyWheelView.startLuckyWheelWithTargetIndex(Integer.parseInt(points) + 1);
             }
             else {
                 Toast.makeText(MainActivity.this, "Limit Reached. Withdraw First To Play", Toast.LENGTH_SHORT).show();
@@ -150,11 +182,7 @@
         }
 
         public boolean limitReached() {
-            if (currentAvail < maxAvail) {
-                return false;
-            } else {
-                return true;
-            }
+            return currentAvail >= maxAvail;
         }
 
         public void withdrawBtnClick(View view){
