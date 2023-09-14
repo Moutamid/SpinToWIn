@@ -6,11 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster_two"
+            android:gravity="center"
+            android:text="Spin To Win"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="450dp"
-        android:paddingEnd="280dp"
+        android:layout_marginTop="70dp"
+        android:paddingEnd="320dp"
         android:alpha="0.35"
         android:scaleType="center"
         android:src="@drawable/app_bg2" />
@@ -26,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/transparent_bg"
             android:orientation="horizontal">
@@ -63,7 +81,7 @@
             app:lkwCenterImage="@drawable/centerimg"
             app:lkwCursor="@drawable/ic_cursor"
             app:lkwEdgeColor="@color/gray"
-            app:lkwEdgeWidth="3"
+            app:lkwEdgeWidth="2"
             app:lkwTopTextColor="@color/black"
             app:lkwTopTextPadding="25dp"
             app:lkwTopTextSize="16sp" />
