@@ -86,17 +86,20 @@
                 @Override
                 public void LuckyRoundItemSelected(int index) {
                     String pointsReceivedValue = data.get(index).topText;
+                    String numericPart = pointsReceivedValue.replaceAll("[^0-9]", "");
 
-                    Toast.makeText(MainActivity.this, "You won " + pointsReceivedValue + " points", Toast.LENGTH_SHORT).show();
+                    if (!numericPart.isEmpty()) {
+                        Integer points = Integer.parseInt(numericPart);
+                        currentAvail = points + currentAvail;
+                        remainingAmnt = maxAvail - currentAvail;
 
-                    Integer points = Integer.valueOf(pointsReceivedValue);
-                    currentAvail = points + currentAvail;
-                    remainingAmnt = maxAvail - currentAvail;
+                        Toast.makeText(MainActivity.this, "You won " + numericPart + " points", Toast.LENGTH_SHORT).show();
 
-                    currentBal.setText(String.valueOf(currentAvail));
-                    remainingBal.setText(String.valueOf(remainingAmnt));
+                        currentBal.setText(String.valueOf(currentAvail));
+                        remainingBal.setText(String.valueOf(remainingAmnt));
 
-                    updateDataInFirebase(currentAvail);
+                        updateDataInFirebase(currentAvail);
+                    }
                 }
             });
         }
