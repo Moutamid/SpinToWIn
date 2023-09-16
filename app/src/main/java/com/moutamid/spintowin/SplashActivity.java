@@ -3,24 +3,23 @@ package com.moutamid.spintowin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fxn.stash.Stash;
+
 public class SplashActivity extends AppCompatActivity {
-    private static final int SPLASH_DELAY = 3000; // 3 seconds
+    private static final String TAG = "SplashActivity";
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, SPLASH_DELAY);
+        if (Stash.getBoolean(Constants.IS_TERMS_ACCEPTED, false)) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+        else{
+            startActivity(new Intent(this, GuidelineActivity.class));
+        }
     }
 }

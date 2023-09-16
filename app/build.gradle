@@ -31,6 +31,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.fxn769:stash:1.3.2'
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':library')
     implementation platform('com.google.firebase:firebase-bom:32.2.3')

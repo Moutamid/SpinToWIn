@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
+
 import java.util.Random;
 
 public class GuidelineActivity extends AppCompatActivity {
@@ -18,7 +20,12 @@ public class GuidelineActivity extends AppCompatActivity {
     }
 
     public void startBtnClick(View view) {
-        Intent intent= new Intent(GuidelineActivity.this, SplashActivity.class);
+        Intent intent= new Intent(GuidelineActivity.this, MainActivity.class);
+        Stash.put(Constants.IS_TERMS_ACCEPTED, true);
         startActivity(intent);
+    }
+
+    public void declineBtnClick(View view) {
+        finish();
     }
 }

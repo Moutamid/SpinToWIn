@@ -1,124 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GuidelineActivity"
     android:background="@color/white"
-    android:orientation="vertical">
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/tc_img"
-        android:scaleType="centerInside"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center"/>
+    android:orientation="vertical"
+    tools:context=".GuidelineActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_margin="5dp"
         android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Follow All The Rules Below:"
-        android:layout_marginTop="10dp"
-        android:paddingStart="8dp"
-        android:fontFamily="@font/poppins_bold"
-        android:textColor="@color/black"
-        android:textSize="18sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="10dp">
+            android:layout_margin="20dp"
+            android:background="@color/white">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:text="Before starting app, make sure you have an active internet connection."
-        android:drawablePadding="8dp"
-        app:drawableLeftCompat="@drawable/baseline_flare_24" />
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_logo" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:layout_marginTop="6dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:text="Share app to 5 Whatsapp/Facebook groups."
-        android:drawablePadding="8dp"
-        app:drawableLeftCompat="@drawable/baseline_flare_24" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:layout_marginTop="6dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:text="Please do give 5 star rating to the app."
-        android:drawablePadding="8dp"
-        app:drawableLeftCompat="@drawable/baseline_flare_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Terms and Conditions"
+                    android:textAllCaps="true"
+                    android:textColor="@color/headerblack"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:layout_marginTop="6dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:text="You must play on the app daily."
-        android:drawablePadding="8dp"
-        app:drawableLeftCompat="@drawable/baseline_flare_24" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/roboto"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:text="It is mandatory to be active on app for 30 minutes daily."
-        android:drawablePadding="8dp"
-        app:drawableLeftCompat="@drawable/baseline_flare_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last updated Sep 2023"
+                    android:textColor="@color/subtitleblack" />
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/linecolor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
+            android:text="Follow All The Rules Below:"
+            android:textColor="@color/headerblack"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:lineSpacingExtra="6dp"
+            android:text="1. Before starting app, make sure you have an active internet connection. \n2. Share app to 5 Whatsapp/Facebook groups.\n3. Please do give 5 star rating to the app.\n4. You must play on the app daily.\n5. It is mandatory to be active on app for 30 minutes daily."
+            android:textColor="@color/descriptionblack" />
+
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/startBtn"
-        android:onClick="startBtnClick"
-        android:layout_width="250dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Earning"
-        android:fontFamily="@font/poppins_bold"
-        android:textStyle="bold"
-        android:textSize="16sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:background="@drawable/button_bg"
-        android:textAllCaps="false"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/declinebutton_bg"
+            android:onClick="declineBtnClick"
+            android:text="Decline"
+            android:textAllCaps="false"
+            android:textColor="@color/darkblue" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_bg"
+            android:onClick="startBtnClick"
+            android:text="Start Earning"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

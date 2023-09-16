@@ -106,7 +106,7 @@ public class PielView extends View {
     public int getLuckyItemListSize() {
         return mLuckyItemList.size();
     }
-    
+
     public void setData(List<LuckyItem> luckyItemList) {
         this.mLuckyItemList = luckyItemList;
         invalidate();

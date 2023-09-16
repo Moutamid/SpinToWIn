@@ -6,6 +6,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Constants {
 
+    public static final String IS_TERMS_ACCEPTED = "IS_TERMS_ACCEPTED";
+
     public static FirebaseAuth auth() {
         return FirebaseAuth.getInstance();
     }

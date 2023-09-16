@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:color="@color/linecolor"
+        android:width="2dp"/>
+    <corners android:radius="10dp" /> <!-- Adjust the radius to control the oval shape -->
+</shape>
+

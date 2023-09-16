@@ -1,13 +1,16 @@
 package com.moutamid.spintowin;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,12 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import android.util.Base64;
 
 public class WithdrawActivity extends AppCompatActivity {
-    String  numberwithdraw, merchantAPI;
-    EditText numberWithdraw,withdrawAmnt;
+    String numberwithdraw, merchantAPI, username;
+    EditText numberWithdraw, withdrawAmnt, userName;
     Integer currentAvail, maxAvail, exchangeRate, withdrawLimit, withdrawamnt, remainingAmnt;
-    CheckBox razorPay, manualPayment;
-    boolean manualvisible;
-    TextView minRedeem,conversionAmnt, myTotal;
+    CardView razorPay, manualPayment;
+    boolean manualvisible, rpayOn, mpayOn;
+    ImageView rpaytick, mpaytick;
+    TextView myTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,31 +35,29 @@ public class WithdrawActivity extends AppCompatActivity {
         myTotal = findViewById(R.id.myTotal);
         numberWithdraw = findViewById(R.id.mobileNumber);
         withdrawAmnt = findViewById(R.id.withdrawAmnt);
-        minRedeem = findViewById(R.id.minRedeem);
-        conversionAmnt = findViewById(R.id.conversionAmnt);
         razorPay = findViewById(R.id.razorPay);
         manualPayment = findViewById(R.id.manualPayment);
+        userName = findViewById(R.id.userName);
+        rpaytick = findViewById(R.id.rpaytick);
+        mpaytick = findViewById(R.id.mpaytick);
 
         currentAvail = getIntent().getIntExtra("CurrentAvail", 0);
         maxAvail = getIntent().getIntExtra("MaxAvail", 0);
         exchangeRate = getIntent().getIntExtra("ExchangeRate", 0);
         withdrawLimit = getIntent().getIntExtra("WithdrawLimit", 0);
-        manualvisible = getIntent().getBooleanExtra("manualVisible",false);
+        manualvisible = getIntent().getBooleanExtra("manualVisible", false);
         merchantAPI = getIntent().getStringExtra("MerchantAPI");
 
         withdrawAmnt.setText(String.valueOf(maxAvail));
         withdrawAmnt.setEnabled(false);
 
-        if (manualvisible){
+        if (manualvisible) {
             manualPayment.setVisibility(View.VISIBLE);
-        }
-        else {
-            manualPayment.setVisibility(View.GONE);
+        } else {
+            manualPayment.setVisibility(View.INVISIBLE);
         }
 
         myTotal.setText(String.valueOf(currentAvail));
-        minRedeem.setText(String.valueOf(maxAvail));
-        conversionAmnt.setText(String.valueOf(exchangeRate));
     }
 
     public void withdrawSubmitBtnClick(View view) {
@@ -68,9 +70,9 @@ public class WithdrawActivity extends AppCompatActivity {
         }
 
         if (canWithdraw()) {
-            if (manualPayment.isChecked()) {
+            if (mpayOn) {
 
-                WithdrawDataModel withdrawalRequest = new WithdrawDataModel(numberwithdraw, withdrawamnt);
+                WithdrawDataModel withdrawalRequest = new WithdrawDataModel(username, numberwithdraw, withdrawamnt);
                 DatabaseReference reference = Constants.databaseReference().child("WithdrawRequests");
                 String requestId = reference.push().getKey();
                 reference.child(requestId).setValue(withdrawalRequest);
@@ -85,9 +87,8 @@ public class WithdrawActivity extends AppCompatActivity {
 
                 updateDataInFirebase(currentAvail);
                 numberWithdraw.setText("");
-                manualPayment.setChecked(false);
-            }
-            else if (razorPay.isChecked()) {
+                mpaytick.setVisibility(View.GONE);
+            } else if (rpayOn) {
                 byte[] byteData = Base64.decode(merchantAPI, Base64.DEFAULT);
                 String decodedAPI = new String(byteData);
 
@@ -100,17 +101,15 @@ public class WithdrawActivity extends AppCompatActivity {
                 recordWithdrawal();
 
                 numberWithdraw.setText("");
-                razorPay.setChecked(false);
+                rpaytick.setVisibility(View.GONE);
                 updateDataInFirebase(currentAvail);
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Select Payment Method", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "You have reached the daily withdrawal limit", Toast.LENGTH_SHORT).show();
             numberWithdraw.setText("");
-            manualPayment.setChecked(false);
-            razorPay.setChecked(false);
+
         }
     }
 
@@ -144,12 +143,34 @@ public class WithdrawActivity extends AppCompatActivity {
         int withdrawalsMade = preferences.getInt("withdrawalsMade", 0);
         boolean withinWithdrawLimit = withdrawalsMade < withdrawLimit;
 
-        if (withinWithdrawLimit)
-        {
-            return withinWithdrawLimit;
+        if (timeLimitPassed) {
+            // Reset withdrawalsMade to 0 when the time limit has passed
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("withdrawalsMade", 0);
+            editor.apply();
         }
-        else {
-            return timeLimitPassed && withinWithdrawLimit;
+
+        return timeLimitPassed && withinWithdrawLimit;
+    }
+
+
+    public void rpayClicked(View view) {
+        if (!rpayOn) {
+            rpaytick.setVisibility(View.VISIBLE);
+            rpayOn = true;
+        } else {
+            rpaytick.setVisibility(View.GONE);
+            rpayOn = false;
+        }
+    }
+
+    public void mpayClicked() {
+        if (!mpayOn) {
+            mpaytick.setVisibility(View.VISIBLE);
+            mpayOn = true;
+        } else {
+            mpaytick.setVisibility(View.GONE);
+            mpayOn = false;
         }
     }
 }
