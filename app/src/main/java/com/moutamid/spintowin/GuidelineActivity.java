@@ -1,28 +1,51 @@
 package com.moutamid.spintowin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
 
-import java.util.Random;
-
 public class GuidelineActivity extends AppCompatActivity {
+    public Integer currentAvail;
+    public Integer exchangeRate;
+    public Integer maxAvail;
+    public Integer withdrawLimit;
+    boolean manualVisible;
+    String androidId, merchantAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guideline);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            currentAvail = extras.getInt("currentAvail");
+            exchangeRate = extras.getInt("exchangeRate");
+            maxAvail = extras.getInt("maxAvail");
+            withdrawLimit = extras.getInt("withdrawLimit");
+            manualVisible = extras.getBoolean("manualVisible");
+            merchantAPI = extras.getString("merchantAPI");
+            androidId = extras.getString("androidId");
+        }
     }
 
     public void startBtnClick(View view) {
-        Intent intent= new Intent(GuidelineActivity.this, MainActivity.class);
+        Intent mainIntent = new Intent(this, MainActivity.class);
+
+        mainIntent.putExtra("currentAvail", currentAvail);
+        mainIntent.putExtra("exchangeRate", exchangeRate);
+        mainIntent.putExtra("maxAvail", maxAvail);
+        mainIntent.putExtra("withdrawLimit", withdrawLimit);
+        mainIntent.putExtra("manualVisible", manualVisible);
+        mainIntent.putExtra("merchantAPI", merchantAPI);
+        mainIntent.putExtra("androidId", androidId);
+
         Stash.put(Constants.IS_TERMS_ACCEPTED, true);
-        startActivity(intent);
+        startActivity(mainIntent);
     }
 
     public void declineBtnClick(View view) {
