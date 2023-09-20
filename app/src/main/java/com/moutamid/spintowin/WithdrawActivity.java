@@ -3,6 +3,7 @@ package com.moutamid.spintowin;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -88,6 +89,8 @@ public class WithdrawActivity extends AppCompatActivity {
                 updateDataInFirebase(currentAvail);
                 numberWithdraw.setText("");
                 mpaytick.setVisibility(View.GONE);
+                startActivity(new Intent(this, SplashActivity.class));
+
             } else if (rpayOn) {
                 byte[] byteData = Base64.decode(merchantAPI, Base64.DEFAULT);
                 String decodedAPI = new String(byteData);
@@ -103,13 +106,16 @@ public class WithdrawActivity extends AppCompatActivity {
                 numberWithdraw.setText("");
                 rpaytick.setVisibility(View.GONE);
                 updateDataInFirebase(currentAvail);
+
+                startActivity(new Intent(this, MainActivity.class));
             } else {
                 Toast.makeText(this, "Select Payment Method", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "You have reached the daily withdrawal limit", Toast.LENGTH_SHORT).show();
             numberWithdraw.setText("");
-
+            rpaytick.setVisibility(View.GONE);
+            mpaytick.setVisibility(View.GONE);
         }
     }
 

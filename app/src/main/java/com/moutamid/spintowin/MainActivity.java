@@ -92,7 +92,7 @@
             data.add(luckyItem6);
 
             luckyWheelView.setData(data);
-            luckyWheelView.setRound(10);
+            luckyWheelView.setRound(5);
 
             luckyWheelView.setLuckyRoundItemSelectedListener(index -> {
                 String pointsReceivedValue = data.get(index).topText;
