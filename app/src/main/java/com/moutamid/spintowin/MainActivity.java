@@ -2,6 +2,7 @@
 
     import android.content.Intent;
     import android.os.Bundle;
+    import android.util.Log;
     import android.view.View;
     import android.widget.TextView;
     import android.widget.Toast;
@@ -113,7 +114,9 @@
         public void spinBtnClick(View view) {
             if (!limitReached()) {
                 Random random = new Random();
-                points = String.valueOf(random.nextInt(5));
+                points = String.valueOf(random.nextInt(6));
+
+                Log.d("SpinTheWheel", "Points : " + points);
                 luckyWheelView.startLuckyWheelWithTargetIndex(Integer.parseInt(points));
             }
             else {
