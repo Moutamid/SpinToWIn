@@ -50,7 +50,14 @@
 
             currentBal.setText(String.valueOf(currentAvail));
             remainingAmnt = maxAvail - currentAvail;
-            remainingBal.setText(String.valueOf(remainingAmnt));
+
+            if (remainingAmnt < 0)
+            {
+                remainingBal.setText("0");
+            }
+            else {
+                remainingBal.setText(String.valueOf(remainingAmnt));
+            }
 
             luckyWheelView.setTouchEnabled(false);
 
@@ -114,15 +121,26 @@
         public void spinBtnClick(View view) {
             if (!limitReached()) {
                 Random random = new Random();
-                points = String.valueOf(random.nextInt(6));
+                int[] availablePoints = {100, 200, 300, 400, 500, 1000};
 
-                Log.d("SpinTheWheel", "Points : " + points);
-                luckyWheelView.startLuckyWheelWithTargetIndex(Integer.parseInt(points));
-            }
-            else {
+                int maxPoints = remainingAmnt;
+
+                List<Integer> allowedPoints = new ArrayList<>();
+                for (int value : availablePoints) {
+                    if (value <= maxPoints) {
+                        allowedPoints.add(value);
+                    }
+                }
+
+                if (!allowedPoints.isEmpty()) {
+                    int randomIndex = random.nextInt(allowedPoints.size());
+                    luckyWheelView.startLuckyWheelWithTargetIndex(randomIndex);
+                }
+            } else {
                 Toast.makeText(MainActivity.this, "Limit Reached. Withdraw First To Play", Toast.LENGTH_SHORT).show();
             }
         }
+
 
         public boolean limitReached() {
             return currentAvail >= maxAvail;
