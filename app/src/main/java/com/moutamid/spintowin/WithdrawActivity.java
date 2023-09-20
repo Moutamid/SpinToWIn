@@ -107,7 +107,7 @@ public class WithdrawActivity extends AppCompatActivity {
                 rpaytick.setVisibility(View.GONE);
                 updateDataInFirebase(currentAvail);
 
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, SplashActivity.class));
             } else {
                 Toast.makeText(this, "Select Payment Method", Toast.LENGTH_SHORT).show();
             }
