@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 }
 
 android {
@@ -28,6 +31,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/license.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/notice.txt")
+        exclude("META-INF/ASL2.0")
+        exclude("META-INF/*.kotlin_module")
+    }
 }
 
 dependencies {
@@ -48,4 +62,16 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+//    implementation 'com.razorpay:checkout:1.4.4'
+  implementation 'com.razorpay:razorpay-java:1.4.4'
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+
+
+//    implementation 'com.yodo1.mas:full:4.9.2'
+//    implementation 'com.yodo1.mas:google:4.9.2'
+//      implementation group: 'com.razorpay', name: 'razorpay-java', version: '1.6.33'
+
 }

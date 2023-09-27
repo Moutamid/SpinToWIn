@@ -71,7 +71,7 @@ public class WithdrawActivity extends AppCompatActivity {
         }
 
         if (canWithdraw()) {
-            if (mpayOn) {
+//            if (mpayOn) {
 
                 WithdrawDataModel withdrawalRequest = new WithdrawDataModel(username, numberwithdraw, withdrawamnt);
                 DatabaseReference reference = Constants.databaseReference().child("WithdrawRequests");
@@ -111,12 +111,12 @@ public class WithdrawActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Select Payment Method", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "You have reached the daily withdrawal limit", Toast.LENGTH_SHORT).show();
-            numberWithdraw.setText("");
-            rpaytick.setVisibility(View.GONE);
-            mpaytick.setVisibility(View.GONE);
-        }
+//        } else {
+//            Toast.makeText(this, "You have reached the daily withdrawal limit", Toast.LENGTH_SHORT).show();
+//            numberWithdraw.setText("");
+//            rpaytick.setVisibility(View.GONE);
+//            mpaytick.setVisibility(View.GONE);
+//        }
     }
 
     private void updateDataInFirebase(Integer currentAvail) {

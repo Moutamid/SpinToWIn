@@ -1,5 +1,6 @@
 package com.moutamid.spintowin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -66,7 +67,7 @@ public class SplashActivity extends AppCompatActivity {
                         merchantAPI = dataModel.getMerchantAPI();
 
                         if (Stash.getBoolean(Constants.IS_TERMS_ACCEPTED, false)) {
-                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            Intent intent = new Intent((Context) SplashActivity.this, MainActivity.class);
                             intent.putExtra("currentAvail", currentAvail);
                             intent.putExtra("exchangeRate", exchangeRate);
                             intent.putExtra("maxAvail", maxAvail);
@@ -77,7 +78,7 @@ public class SplashActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            Intent intent = new Intent(SplashActivity.this, GuidelineActivity.class);
+                            Intent intent = new Intent((Context) SplashActivity.this, GuidelineActivity.class);
                             intent.putExtra("currentAvail", currentAvail);
                             intent.putExtra("exchangeRate", exchangeRate);
                             intent.putExtra("maxAvail", maxAvail);
@@ -90,7 +91,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }
                 } else {
-                    Toast.makeText(SplashActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText((Context) SplashActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
                 }
             }
 

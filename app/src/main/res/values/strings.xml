@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpinToWIn</string>
+    <string name="admob_app_id">ca-app-pub-5580537606944457~7101494428</string>
+
 </resources>
