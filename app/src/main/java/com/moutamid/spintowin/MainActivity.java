@@ -1,6 +1,8 @@
 package com.moutamid.spintowin;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,7 +23,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import rubikstudio.library.LuckyWheelView;
@@ -30,6 +34,7 @@ import rubikstudio.library.model.LuckyItem;
 import com.razorpay.Payment;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.razorpay.Transfer;
 
 import org.json.JSONObject;
 
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference userDataRef = Constants.databaseReference().child("userData");
     List<LuckyItem> data = new ArrayList<>();
     Button withdraw_btn;
+    RazorpayClient razorpay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,51 +60,17 @@ public class MainActivity extends AppCompatActivity {
         currentBal = findViewById(R.id.currentAmnt);
         remainingBal = findViewById(R.id.amntLeft);
         withdraw_btn = findViewById(R.id.withdraw_btn);
+        try {
+            razorpay = new RazorpayClient("rzp_test_D0iZEk51VDPgK5", "FnQgV1J62ckAmaHl5T3LqcHT");
+        } catch (RazorpayException e) {
+        }
+
+
         withdraw_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-
-                                try {
-                                    RazorpayClient razorpay = new RazorpayClient("rzp_test_D0iZEk51VDPgK5", "FnQgV1J62ckAmaHl5T3LqcHT");
-                                    JSONObject paymentLinkRequest = new JSONObject();
-                                    paymentLinkRequest.put("amount", 1000);
-                                    paymentLinkRequest.put("currency", "INR");
-                                    paymentLinkRequest.put("accept_partial", true);
-                                    paymentLinkRequest.put("first_min_partial_amount", 100);
-                                    paymentLinkRequest.put("expire_by", 1691097057);
-                                    paymentLinkRequest.put("reference_id", "TS1989");
-                                    paymentLinkRequest.put("description", "Payment for policy no #23456");
-                                    JSONObject customer = new JSONObject();
-                                    customer.put("name", "+919000090000");
-                                    customer.put("contact", "Gaurav Kumar");
-                                    customer.put("email", "gaurav.kumar@example.com");
-                                    paymentLinkRequest.put("customer", customer);
-                                    JSONObject notify = new JSONObject();
-                                    notify.put("sms", true);
-                                    notify.put("email", true);
-                                    paymentLinkRequest.put("notify", notify);
-                                    paymentLinkRequest.put("reminder_enable", true);
-                                    JSONObject notes = new JSONObject();
-                                    notes.put("policy_name", "Jeevan Bima");
-                                    paymentLinkRequest.put("notes", notes);
-                                    paymentLinkRequest.put("callback_url", "https://example-callback-url.com/");
-                                    paymentLinkRequest.put("callback_method", "get");
-                                    PaymentLink payment = razorpay.paymentLink.create(paymentLinkRequest);
-                                }
-                                catch (Exception e) {
-                                    Log.d("error", e.getMessage());
-                                }
-
-
-
-                            }
-                        }, 1000);
-
+                MyAsyncTask myAsyncTasks = new MyAsyncTask();
+                myAsyncTasks.execute();
 
 
             }
@@ -205,12 +178,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public boolean limitReached() {
+    public boolean limitReached()
+    {
         return currentAvail >= maxAvail;
     }
 
-    public void withdrawBtnClick(View view) {
-//        loadRewardedVideoAd();
+    public void withdrawBtnClick()
+    {
+
+//            loadRewardedVideoAd();
 
 //            if (limitReached())
 //            {
@@ -271,5 +247,80 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public class MyAsyncTask extends AsyncTask<String, JSONObject, JSONObject> {
+        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog.setMessage("Please Wait");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+        }
+
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            JSONObject paymentLinkRequest = new JSONObject();
+
+            // implement API in background and store the response in current variable
+            try {
+                paymentLinkRequest.put("amount", 1000);
+                paymentLinkRequest.put("currency", "INR");
+                paymentLinkRequest.put("accept_partial", true);
+                paymentLinkRequest.put("first_min_partial_amount", 100);
+//                paymentLinkRequest.put("expire_by", 1691097057);
+                paymentLinkRequest.put("reference_id", "TS2793");
+                paymentLinkRequest.put("description", "Payment for policy no #23456");
+                JSONObject customer = new JSONObject();
+                customer.put("name", "+919000090000");
+                customer.put("contact", "Gaurav Kumar");
+                customer.put("email", "gaurav.kumar@example.com");
+                paymentLinkRequest.put("customer", customer);
+                JSONObject notify = new JSONObject();
+                notify.put("sms", true);
+                notify.put("email", true);
+                paymentLinkRequest.put("notify", notify);
+                paymentLinkRequest.put("reminder_enable", true);
+                JSONObject notes = new JSONObject();
+                notes.put("policy_name", "Jeevan Bima");
+                paymentLinkRequest.put("notes", notes);
+                paymentLinkRequest.put("callback_url", "https://example-callback-url.com/");
+                paymentLinkRequest.put("callback_method", "get");
+                Log.d("json", "json " + paymentLinkRequest.toString());
+
+//                String transferId = "trf_EAznuJ9cDLnF7Y";
+//                JSONObject transferRequest = new JSONObject();
+//                transferRequest.put("amount","100");
+//                JSONObject notes = new JSONObject();
+//                notes.put("branch","Acme Corp Bangalore North");
+//                notes.put("name","Gaurav Kumar");
+//                transferRequest.put("notes",notes);
+//                razorpay.transfers.reversal(transferId,transferRequest);
+
+                razorpay.paymentLink.create(paymentLinkRequest);
+                return paymentLinkRequest;
+            } catch (Exception e) {
+                Log.d("error", "error" + e);
+                return paymentLinkRequest;
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject s) {
+            progressDialog.dismiss();
+            Log.d("json", "json on post method " + s.toString());
+//            try {
+////                razorpay.paymentLink.create(s);
+//            } catch (RazorpayException e) {
+//                Log.d("error", "error" + e.getMessage());
+//            }
+
+        }
+    }
 
 }
