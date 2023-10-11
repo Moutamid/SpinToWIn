@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
+import com.razorpay.Checkout;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -60,17 +61,33 @@ public class MainActivity extends AppCompatActivity {
         currentBal = findViewById(R.id.currentAmnt);
         remainingBal = findViewById(R.id.amntLeft);
         withdraw_btn = findViewById(R.id.withdraw_btn);
-        try {
-            razorpay = new RazorpayClient("rzp_test_D0iZEk51VDPgK5", "FnQgV1J62ckAmaHl5T3LqcHT");
-        } catch (RazorpayException e) {
-        }
+//        try {
+//            razorpay = new RazorpayClient("rzp_test_D0iZEk51VDPgK5", "FnQgV1J62ckAmaHl5T3LqcHT");
+//        } catch (RazorpayException e) {
+//        }
+
+        Checkout.preload(getApplicationContext());
 
 
         withdraw_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyAsyncTask myAsyncTasks = new MyAsyncTask();
-                myAsyncTasks.execute();
+//                MyAsyncTask myAsyncTasks = new MyAsyncTask();
+//                myAsyncTasks.execute();
+                Checkout checkout = new Checkout();
+                checkout.setKeyID("rzp_test_D0iZEk51VDPgK5"); // Replace with your Razorpay API Key
+
+                JSONObject options = new JSONObject();
+                try {
+                    options.put("name", "Your App Name");
+                    options.put("description", "Payment request for XYZ");
+                    options.put("currency", "INR"); // Replace with the desired currency
+                    options.put("amount", "10000"); // Replace with the amount in paise (e.g., 10000 for ₹100.00)
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                checkout.open(MainActivity.this, options);
 
 
             }

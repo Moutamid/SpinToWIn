@@ -68,7 +68,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
-
+    implementation 'com.razorpay:checkout:1.6.10' // Replace with the latest version
 
 //    implementation 'com.yodo1.mas:full:4.9.2'
 //    implementation 'com.yodo1.mas:google:4.9.2'

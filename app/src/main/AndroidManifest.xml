@@ -43,12 +43,12 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-<!--        <receiver-->
-<!--            android:name="com.razorpay.RzpTokenReceiver"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name="com.razorpay.CheckoutActivity"-->
-<!--            android:exported="true" />-->
+        <receiver
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="true" />
+        <activity
+            android:name="com.razorpay.CheckoutActivity"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
